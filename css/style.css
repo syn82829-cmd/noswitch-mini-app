@@ -1,1 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.ns-logo {
+  font-size: 110px;
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: -6px;
+}
