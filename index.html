@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NoSwitch VPN</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -27,33 +27,62 @@
         Купить подписку — 250 ₽/мес
       </button>
 
+      <button onclick="createVpnAccount()" 
+              class="w-full border border-emerald-500 text-emerald-400 font-medium py-4 rounded-3xl text-lg">
+        Создать аккаунт VPN (тест)
+      </button>
+
       <button onclick="showHowItWorks()" 
               class="w-full border border-zinc-700 font-medium py-4 rounded-3xl text-lg">
         Как это работает →
       </button>
     </div>
 
-    <div id="status" class="mt-8 text-center text-sm text-zinc-500"></div>
+    <div id="status" class="mt-8 text-center text-sm text-zinc-400"></div>
   </div>
 
   <script>
-    // Telegram WebApp
     const tg = window.Telegram.WebApp;
     tg.expand();
     tg.ready();
 
+    const BACKEND_URL = 'https://noswitch-backend.onrender.com';
+
+    async function createVpnAccount() {
+      const statusEl = document.getElementById('status');
+      statusEl.innerHTML = '⏳ Подключаюсь к серверу...';
+
+      try {
+        const res = await fetch(`${BACKEND_URL}/create-user`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            telegramId: tg.initDataUnsafe?.user?.id || 123456,
+            username: tg.initDataUnsafe?.user?.username || 'test'
+          })
+        });
+
+        const data = await res.json();
+        statusEl.innerHTML = `✅ ${data.message}<br>Конфиг будет здесь`;
+        tg.showAlert('Аккаунт VPN создан! (пока тестовая заглушка)');
+      } catch (e) {
+        statusEl.innerHTML = '❌ Ошибка соединения с бэкендом';
+        console.error(e);
+      }
+    }
+
     function buySubscription() {
-      tg.showAlert("Платёж через Telegram Stars будет здесь (скоро подключим)");
-      // позже здесь будет реальная оплата
+      tg.showAlert('Платёж через Telegram Stars будет здесь (скоро добавим)');
     }
 
     function showHowItWorks() {
-      tg.showAlert("VPN всегда включён\nSplit-tunneling делает так, что российские сервисы идут напрямую, а YouTube/Instagram — через VPN");
+      tg.showAlert('VPN всегда включён\nSplit-tunneling: российские сайты идут напрямую, заблокированные — через VPN');
     }
 
-    // Показываем имя пользователя
+    // Приветствие
+    const user = tg.initDataUnsafe?.user;
     document.getElementById('status').innerHTML = `
-      Привет, ${tg.initDataUnsafe?.user?.first_name || 'друг'}!<br>
+      Привет, ${user?.first_name || 'друг'}!<br>
       Готов к NoSwitch?
     `;
   </script>
