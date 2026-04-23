@@ -5,11 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NoSwitch</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/style.css">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <style>
-    body { font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif; }
-    .ns-logo { font-size: 120px; line-height: 1; font-weight: 900; letter-spacing: -8px; }
-  </style>
 </head>
 <body class="bg-[#f5f0e8] text-black min-h-screen">
   <div class="max-w-md mx-auto p-8">
@@ -50,47 +47,6 @@
     <div id="status" class="mt-10 text-center text-sm text-zinc-500"></div>
   </div>
 
-  <script>
-    const tg = window.Telegram.WebApp;
-    tg.expand();
-    tg.ready();
-
-    const BACKEND_URL = 'https://noswitch-backend.onrender.com';
-
-    async function createVpnAccount() {
-      const statusEl = document.getElementById('status');
-      statusEl.innerHTML = '⏳ Подключаюсь к серверу...';
-
-      try {
-        const res = await fetch(`${BACKEND_URL}/create-user`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            telegramId: tg.initDataUnsafe?.user?.id || 123456,
-            username: tg.initDataUnsafe?.user?.username || 'test'
-          })
-        });
-        const data = await res.json();
-        statusEl.innerHTML = `✅ ${data.message}`;
-        tg.showAlert('Аккаунт VPN создан!');
-      } catch (e) {
-        statusEl.innerHTML = '❌ Ошибка соединения';
-      }
-    }
-
-    function buySubscription() {
-      tg.showAlert('Платёж через Telegram Stars будет здесь (скоро)');
-    }
-
-    function showHowItWorks() {
-      tg.showAlert('VPN всегда включён\nРоссийские сервисы идут напрямую\nЗаблокированные — через туннель');
-    }
-
-    const user = tg.initDataUnsafe?.user;
-    document.getElementById('status').innerHTML = `
-      Привет, ${user?.first_name || 'друг'}!<br>
-      Готов к NoSwitch?
-    `;
-  </script>
+  <script src="js/app.js"></script>
 </body>
 </html>
