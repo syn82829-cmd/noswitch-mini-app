@@ -1,231 +1,66 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NoSwitch • Telegram Mini App</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
-        
-        :root {
-            --tg-theme-bg-color: #f8f1e3;
-        }
-        
-        body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-        }
-        
-        .telegram-header {
-            background: linear-gradient(to bottom, #229ed9, #1a8ac4);
-        }
-        
-        /* Стеклянная панель навигации */
-        .glass-bar {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.6);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-        }
-        
-        /* Логотип NO + SWITCH */
-        .logo-no {
-            font-size: 72px;
-            font-weight: 900;
-            line-height: 1;
-            letter-spacing: -4px;
-            transform: skew(-12deg);
-        }
-        
-        .toggle-switch {
-            width: 148px;
-            height: 62px;
-            background: #1f1f1f;
-            border-radius: 9999px;
-            position: relative;
-            box-shadow: 
-                inset 0 2px 4px rgba(0,0,0,0.3),
-                0 4px 12px rgba(0,0,0,0.15);
-            border: 6px solid #1f1f1f;
-        }
-        
-        .toggle-slider {
-            position: absolute;
-            top: 6px;
-            right: 6px;
-            width: 92px;
-            height: 50px;
-            background: #1f1f1f;
-            border-radius: 9999px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 
-                0 2px 6px rgba(0,0,0,0.4),
-                inset 0 1px 0 rgba(255,255,255,0.15);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .toggle-knob {
-            position: absolute;
-            right: 8px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 42px;
-            height: 42px;
-            background: #ffffff;
-            border-radius: 50%;
-            box-shadow: 
-                0 3px 8px rgba(0,0,0,0.3),
-                inset 0 1px 0 rgba(255,255,255,0.8);
-        }
-        
-        .switch-text {
-            font-size: 13px;
-            font-weight: 700;
-            letter-spacing: 1.5px;
-            color: #f8f1e3;
-            text-transform: uppercase;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.6);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NoSwitch</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
-<body class="bg-[#f8f1e3] min-h-screen pb-24">
-    <!-- Status Bar (как в Telegram) -->
-    <div class="telegram-header h-11 flex items-end px-6 text-white text-sm font-medium">
-        <div class="flex-1 flex items-center justify-between w-full max-w-[390px] mx-auto">
-            <div>00:30</div>
-            <div class="flex items-center gap-1">
-                <div class="bg-white/30 text-[10px] px-2 py-px rounded">TELEGRAM</div>
-            </div>
-            <div class="flex items-center gap-3">
-                <span>•••</span>
-                <span>Wi-Fi</span>
-                <span>100%</span>
-            </div>
+<body class="bg-[#f5f0e8] text-black min-h-screen pb-24">
+  <div class="max-w-md mx-auto p-8">
+    <!-- Логотип -->
+    <div class="flex items-center justify-center gap-3 pt-12">
+      <div class="ns-logo">ns</div>
+      <div class="relative">
+        <div class="w-28 h-14 bg-black rounded-3xl flex items-center px-2">
+          <div class="w-10 h-10 bg-white rounded-2xl flex items-center justify-center text-xs font-bold border-2 border-black">
+            NO
+          </div>
         </div>
+      </div>
     </div>
 
-    <!-- Основное содержимое -->
-    <div class="max-w-[390px] mx-auto bg-[#f8f1e3] min-h-[calc(100vh-44px)] relative">
-        
-        <!-- Верхняя панель -->
-        <div class="flex items-center justify-between px-5 pt-3 pb-2">
-            <button onclick="window.Telegram?.WebApp?.close()" 
-                    class="flex items-center gap-1 bg-gray-200 hover:bg-gray-300 text-gray-700 text-sm font-medium px-4 h-8 rounded-2xl transition-colors">
-                ✕ Закрыть
-            </button>
-            
-            <button class="flex items-center gap-2 bg-gray-200 hover:bg-gray-300 text-gray-700 text-sm font-medium px-3 h-8 rounded-2xl transition-colors">
-                <span class="text-lg">▼</span>
-                <span class="text-xl">⋯</span>
-            </button>
-        </div>
-
-        <!-- Новый логотип -->
-        <div class="px-6 flex items-center justify-center pt-2 pb-6">
-            <div class="flex items-center">
-                <!-- Текст NO -->
-                <div class="logo-no text-[#1f1f1f] tracking-[-6px] pr-2">NO</div>
-                
-                <!-- Переключатель -->
-                <div class="toggle-switch flex-shrink-0 -ml-3">
-                    <div class="toggle-slider">
-                        <div class="switch-text">SWITCH</div>
-                        <!-- Круглый ползунок -->
-                        <div class="toggle-knob"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Основной текст -->
-        <div class="px-6 text-center">
-            <p class="text-2xl font-semibold leading-tight text-[#1f1f1f]">
-                Переключение без Вашего<br>участия.
-            </p>
-            <p class="text-[#8a8a8a] mt-4 text-[17px]">
-                Wildberries + Telegram одновременно
-            </p>
-        </div>
-
-        <!-- Кнопки действий -->
-        <div class="px-6 mt-10 space-y-4">
-            <!-- Купить подписку -->
-            <button onclick="alert('Подписка оформлена! 🎉')" 
-                    class="w-full bg-black text-white font-semibold text-xl h-14 rounded-3xl shadow-lg active:scale-95 transition-transform">
-                Купить подписку — 250 ₽/мес
-            </button>
-            
-            <!-- Создать аккаунт VPN -->
-            <button onclick="alert('Тестовый VPN аккаунт создан!')" 
-                    class="w-full border-2 border-[#1f1f1f] text-[#1f1f1f] font-semibold text-xl h-14 rounded-3xl active:scale-95 transition-transform">
-                Создать аккаунт VPN (тест)
-            </button>
-            
-            <!-- Как это работает -->
-            <button onclick="alert('Открываем инструкцию...')" 
-                    class="w-full border border-[#d1d1d1] text-[#1f1f1f] font-medium text-xl h-14 rounded-3xl active:scale-95 transition-transform flex items-center justify-center gap-2">
-                Как это работает →
-            </button>
-        </div>
-
-        <!-- Приветствие -->
-        <div class="px-6 mt-12 text-center">
-            <p class="text-[#8a8a8a] text-lg">Привет, hvn!</p>
-            <p class="text-[#1f1f1f] font-semibold text-2xl mt-1">Готов к NoSwitch?</p>
-        </div>
-
-        <!-- Стеклянная панель навигации -->
-        <div class="fixed bottom-6 left-1/2 -translate-x-1/2 max-w-[380px] w-full px-4">
-            <div class="glass-bar rounded-3xl py-2 px-6 flex items-center justify-between text-sm font-medium">
-                
-                <!-- Бонусы -->
-                <button onclick="alert('Раздел Бонусы')" class="flex flex-col items-center text-[#8a8a8a] hover:text-[#1f1f1f] transition-colors">
-                    <span class="text-2xl mb-0.5">🎁</span>
-                    <span>Бонусы</span>
-                </button>
-                
-                <!-- Друзья -->
-                <button onclick="alert('Раздел Друзья')" class="flex flex-col items-center text-[#8a8a8a] hover:text-[#1f1f1f] transition-colors">
-                    <span class="text-2xl mb-0.5">👥</span>
-                    <span>Друзья</span>
-                </button>
-                
-                <!-- Главная (теперь справа, как ты просил) -->
-                <button onclick="alert('Вы уже на Главной')" 
-                        class="bg-[#1f1f1f] text-white px-8 py-3 rounded-3xl font-semibold flex items-center gap-2 shadow-xl">
-                    <span>🏠</span>
-                    <span class="text-base">Главная</span>
-                </button>
-                
-                <!-- Отдельный круглый аватар (не в панели!) -->
-                <div onclick="alert('Профиль открыт')" 
-                     class="absolute right-6 bottom-6 w-14 h-14 bg-gradient-to-br from-[#1f1f1f] to-[#3a3a3a] rounded-2xl shadow-2xl flex items-center justify-center text-white text-3xl border-4 border-white overflow-hidden cursor-pointer">
-                    👤
-                    <!-- Можно заменить на реальное фото -->
-                </div>
-            </div>
-        </div>
+    <div class="text-center mt-6">
+      <p class="text-2xl font-semibold tracking-tight">Переключение без Вашего участия.</p>
+      <p class="text-zinc-600 mt-3 text-lg"><br>Wildberries + Telegram одновременно</p>
     </div>
 
-    <script>
-        // Инициализация Telegram WebApp (если запущено из Telegram)
-        if (window.Telegram?.WebApp) {
-            window.Telegram.WebApp.ready();
-            window.Telegram.WebApp.expand();
-            window.Telegram.WebApp.setHeaderColor('#f8f1e3');
-        }
-        
-        // Tailwind скрипт
-        function initTailwind() {
-            return {
-                // уже инициализировано через CDN
-            }
-        }
-        
-        console.log('%c✅ NoSwitch Mini App загружен! Готов к использованию в Telegram.', 'color:#1f1f1f; font-size:14px; font-weight:bold');
-    </script>
+    <div class="mt-16 space-y-4">
+      <button onclick="buySubscription()" 
+              class="w-full bg-black text-white font-semibold py-5 rounded-3xl text-xl tracking-tight active:scale-[0.97] transition">
+        Купить подписку — 250 ₽/мес
+      </button>
+
+      <button onclick="createVpnAccount()" 
+              class="w-full border-2 border-black font-medium py-5 rounded-3xl text-xl tracking-tight active:scale-[0.97] transition">
+        Создать аккаунт VPN (тест)
+      </button>
+
+      <button onclick="showHowItWorks()" 
+              class="w-full border border-zinc-400 text-zinc-700 font-medium py-5 rounded-3xl text-xl tracking-tight active:scale-[0.97] transition">
+        Как это работает →
+      </button>
+    </div>
+
+    <div id="status" class="mt-10 text-center text-sm text-zinc-500"></div>
+  </div>
+
+  <!-- BOTTOM NAVIGATION -->
+  <div class="bottom-nav">
+    <div class="nav-tabs">
+      <div onclick="switchTab(0)" class="nav-item active" id="tab-0">Главная</div>
+      <div onclick="switchTab(1)" class="nav-item" id="tab-1">Бонусы</div>
+      <div onclick="switchTab(2)" class="nav-item" id="tab-2">Друзья</div>
+    </div>
+
+    <!-- Аватарка Telegram справа -->
+    <div onclick="openProfile()" class="nav-avatar ml-4" id="user-avatar">
+      <!-- Фото подставится автоматически -->
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
 </body>
 </html>
