@@ -28,8 +28,9 @@
     </div>
 
     <div class="mt-16 space-y-4">
-      <button onclick="buySubscription()" 
-              class="w-full bg-black text-white font-semibold py-5 rounded-3xl text-xl tracking-tight active:scale-[0.97] transition">
+      <!-- Кнопка оплаты CryptoBot -->
+      <button onclick="createInvoice()" 
+              class="w-full bg-black text-white font-semibold py-6 rounded-3xl text-2xl tracking-tight active:scale-[0.97] transition shadow-xl">
         Купить подписку — 250 ₽/мес
       </button>
 
@@ -55,9 +56,8 @@
       <div onclick="switchTab(2)" class="nav-item" id="tab-2">Друзья</div>
     </div>
 
-    <!-- Аватарка Telegram справа -->
     <div onclick="openProfile()" class="nav-avatar ml-4" id="user-avatar">
-      <!-- Фото подставится автоматически -->
+      <!-- Фото Telegram -->
     </div>
   </div>
 
